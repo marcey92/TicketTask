@@ -30,8 +30,9 @@ My Assumptions:
 	An event can only have a maximum of 50 tickets.
 	A Ticket can only cost between $1 and $100.
 	There are only 25 to 50 events at any given time.
+    Searching can only be done from within the -10 and +10 grid. 
 
-These assumptions have been met in the code but can be changed to allow more events, more tickets and more expensive tickets.
+These assumptions have been met in the code but can be changed to allow a larger grid, more events, more tickets and more expensive tickets.
 
 --------------------------------------------------------------------------------------------------------------------------------
 
@@ -67,7 +68,7 @@ Example Program Run:
     Event 13 - $6.42, Distance 5
 
     > find 12,3
-    
+
     > find -5,4
     Event 17 - $1.75, Distance 0
     Event 26 - $6.29, Distance 1
