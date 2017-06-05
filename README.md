@@ -1,10 +1,10 @@
 Author @ Marcel Riederer                Date @ 4th June 2017
 
 Viagogo Intern/Graduate Developer Test
---------------------------------------------------------------------------------------------------------------------------------
+Written in Python
+
 --------------------------------------------------------------------------------------------------------------------------------
 
-Written in Python
 To Run in Terminal:
 
     python viagogo.py
@@ -32,6 +32,7 @@ My Assumptions:
 	There are only 25 to 50 events at any given time.
 
 These assumptions have been met in the code but can be changed to allow more events, more tickets and more expensive tickets.
+
 --------------------------------------------------------------------------------------------------------------------------------
 
 How might you change your program if you needed to support multiple events at the same location?
