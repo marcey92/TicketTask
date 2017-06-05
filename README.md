@@ -5,6 +5,7 @@ Written in Python
 
 
 To Run in Terminal:
+
     python viagogo.py
     Running the script will create a random grid. The script can use a seed by uncommenting: 
 	    #random.seed(20)  # uncomment to stop randomising
@@ -12,6 +13,7 @@ To Run in Terminal:
 
 
 Commands once running:
+
     map		    view randomly generated map (id, tickets available)
     event x,y	view event and tickets at coordinate x and y
     find x,y	find nearest events from coordinate x and y
@@ -20,9 +22,11 @@ Commands once running:
 
 
 My Assumptions:
+
 	An event can only have a maximum of 50 tickets.
 	A Ticket can only cost between $1 and $100.
 	There are only 25 to 50 events at any given time.
+
 These assumptions have been met in the code but can be changed to allow more events, more tickets and more expensive tickets.
 
 
@@ -42,24 +46,24 @@ Larger World Size:
 
 Example Program Run:
 
-$ python viagogo.py
+    $ python viagogo.py
 
-Command     Description
-map         view randomly generated map
-event x,y   view event and tickets at coordinate
-find x,y    find nearest events from coordinate
-help        show commands
-exit        terminate program
-> find 1,2
-Event 39 - $34.78, Distance 3
-Event 30 - $14.88, Distance 4
-Event 7 - No Tickets, Distance 4
-Event 40 - $5.75, Distance 5
-Event 13 - $6.42, Distance 5
-> find 12,3
-> find -5,4
-Event 17 - $1.75, Distance 0
-Event 26 - $6.29, Distance 1
-Event 11 - $11.86, Distance 2
-Event 19 - $2.41, Distance 3
-Event 14 - $3.96, Distance 3
+    Command     Description
+    map         view randomly generated map
+    event x,y   view event and tickets at coordinate
+    find x,y    find nearest events from coordinate
+    help        show commands
+    exit        terminate program
+    > find 1,2
+    Event 39 - $34.78, Distance 3
+    Event 30 - $14.88, Distance 4
+    Event 7 - No Tickets, Distance 4
+    Event 40 - $5.75, Distance 5
+    Event 13 - $6.42, Distance 5
+    > find 12,3
+    > find -5,4
+    Event 17 - $1.75, Distance 0
+    Event 26 - $6.29, Distance 1
+    Event 11 - $11.86, Distance 2
+    Event 19 - $2.41, Distance 3
+    Event 14 - $3.96, Distance 3
