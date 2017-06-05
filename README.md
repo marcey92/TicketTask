@@ -2,19 +2,22 @@ Author @ Marcel Riederer                Date @ 4th June 2017
 
 Viagogo Intern/Graduate Developer Test
 Written in Python
-
+--------------------------------------------------------------------------------------------------------------------------------
 
 To Run in Terminal:
 
     python viagogo.py
-    Running the script will create a random grid. The script can use a seed by uncommenting: 
-	    #random.seed(20)  # uncomment to stop randomising
-	from line 12.
+
+Running the script will create a random grid. The script can use a seed by uncommenting: 
+
+    #random.seed(20)  # uncomment to stop randomising
+
+from line 12.
 
 
 Commands once running:
 
-    map		    view randomly generated map (id, tickets available)
+    map         view randomly generated map (id, tickets available)
     event x,y	view event and tickets at coordinate x and y
     find x,y	find nearest events from coordinate x and y
     help		show commands
@@ -23,12 +26,12 @@ Commands once running:
 
 My Assumptions:
 
-	An event can only have a maximum of 50 tickets.
+	A event can only have a maximum of 50 tickets.
 	A Ticket can only cost between $1 and $100.
 	There are only 25 to 50 events at any given time.
 
 These assumptions have been met in the code but can be changed to allow more events, more tickets and more expensive tickets.
-
+--------------------------------------------------------------------------------------------------------------------------------
 
 How might you change your program if you needed to support multiple events at the same location?
 
@@ -43,6 +46,7 @@ Larger World Size:
 
     In this scenario Iterative Deepening Search can be envisioned as a radar that only searches to a distance of 1, on each full cycle it increases its strength by an extra 1. Doing so we can be sure to find the nearest objects first by not looking too far ahead at the start. 
 
+--------------------------------------------------------------------------------------------------------------------------------
 
 Example Program Run:
 
