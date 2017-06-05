@@ -147,7 +147,8 @@ def find_nearest(eventmap, start_node, n_events):
     """
     Finds nearest events using breadth first search.
     Does not visit seen coordinates
-    Returns a list of tupples of event and coordinate found
+    Returns a list of tupples of event and coordinate found.
+    Nodes are tuples of x and y values.
     """
     nearest_events = []
     nodes = [start_node]
@@ -166,6 +167,17 @@ def find_nearest(eventmap, start_node, n_events):
             nodes = expand(front_node) + nodes
     return nearest_events
 
+def cent_to_dollar(cents):
+    """
+    Converts Ineger-cents to string-dollar
+    """
+    if cents < 10:
+        dollar = '$0.0' + str(cents)
+    elif cents < 100:
+        dollar = '$0.' + str(cents)
+    else:
+        dollar = '$' + str(cents)[:-2] + '.' + str(cents)[-2:]
+    return dollar
 
 def print_nice_event(nearest_events, user_coordinate):
     """
@@ -178,8 +190,7 @@ def print_nice_event(nearest_events, user_coordinate):
         if len(tickets) == 0:
             price = 'No Tickets'
         else:
-            price = sorted(tickets)[0]
-            price = '$' + str(price)[:-2] + '.' + str(price)[-2:]
+            price = cent_to_dollar(sorted(tickets)[0])
         distance = distance_between(event_coordinate, user_coordinate)
         print 'Event {0} - {1}, Distance {2}'.format(idx, price, distance)
 
@@ -209,18 +220,17 @@ exit\tterminate program"""
             print commands
         # show event at coordinate
         elif raw[0] == 'event':
-            user_tupple = make_tuple(raw[1])
-            if eventmap.is_event(user_tupple):
-                idx = eventmap.get_id(user_tupple)
-                tixs = eventmap.get_tickets(user_tupple)
-                # add currency format to integers
-                print 'id: {0} tickets: {1}'.format(idx, ['$' + str(t)[:-2] + '.' + str(t)[-2:] for t in tixs])
+            xy_user = make_tuple(raw[1])
+            if eventmap.is_event(xy_user):
+                idx = eventmap.get_id(xy_user)
+                tixs = eventmap.get_tickets(xy_user)
+                print 'id: {0} tickets: {1}'.format(idx, [cent_to_dollar(t) for t in tixs])
             else:
-                print 'no event at ' + str(user_tupple)
+                print 'no event at ' + str(xy_user)
         elif raw[0] == 'find':  # find nearest events
-            user_tupple = make_tuple(raw[1])
-            nearest_events = find_nearest(eventmap, user_tupple, 5)
-            print_nice_event(nearest_events, user_tupple)
+            xy_user = make_tuple(raw[1])
+            nearest_events = find_nearest(eventmap, xy_user, 5)
+            print_nice_event(nearest_events, xy_user)
         user_input = raw_input('> ')
     # end input loop
 
