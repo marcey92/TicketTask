@@ -27,7 +27,7 @@ Commands once running:
 
 My Assumptions:
 
-	A event can only have a maximum of 50 tickets.
+	An event can only have a maximum of 50 tickets.
 	A Ticket can only cost between $1 and $100.
 	There are only 25 to 50 events at any given time.
 
@@ -37,16 +37,14 @@ These assumptions have been met in the code but can be changed to allow more eve
 
 How might you change your program if you needed to support multiple events at the same location?
 
-    If there were multiple events at the same location, I could hold a list of events at each point in the grid. These could be accessed when examining each node, each of these events would have the same distance.
-
-    Although there may be multiple events at a given location because they are scheduled for different days. If this is the case than an extra axis could be used to signify days, this could be a constraint when searching or can be part of the search if the user wishes to search using nearest date and nearest location. 
+If there were multiple events at the same location, I could hold a list of events at each point in the grid. These could be accessed when examining each node, each of these events would have the same distance.
+Although there may be multiple events at a given location because they are scheduled for different days. If this is the case than an extra axis could be used to signify days, this could be a constraint when searching or can be part of the search if the user wishes to search using nearest date and nearest location. 
 
 
 Larger World Size:
 
-    If the world was much larger I would implement an Iterative Deepening Search, which functions like Depth First Search (DFS) but only searches to a limited depth. This is because of the exponential space complexity that Breadth First Search O(b^d) has, whereas DFS only has a linear complexity O(bd). Iterating the depth of DFS ensures that the nearest events are found first unlike regular DFS. 
-
-    In this scenario Iterative Deepening Search can be envisioned as a radar that only searches to a distance of 1, on each full cycle it increases its strength by an extra 1. Doing so we can be sure to find the nearest objects first by not looking too far ahead at the start. 
+If the world was much larger I would implement an Iterative Deepening Search, which functions like Depth First Search (DFS) but only searches to a limited depth. This is because of the exponential space complexity that Breadth First Search O(b^d) has, whereas DFS only has a linear complexity O(bd). Iterating the depth of DFS ensures that the nearest events are found first unlike regular DFS. 
+In this scenario Iterative Deepening Search can be envisioned as a radar that only searches to a distance of 1, on each full cycle it increases its strength by an extra 1. Doing so we can be sure to find the nearest objects first by not looking too far ahead at the start. 
 
 --------------------------------------------------------------------------------------------------------------------------------
 
