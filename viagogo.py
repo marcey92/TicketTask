@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 Author @ Marcel Riederer                Date @ 4th June 2017
 Viagogo Task:
@@ -24,7 +26,7 @@ class EventMap(object):
     event_max = 50
     # constraints for no of tickets
     ticket_min = 0
-    ticket_max = 10
+    ticket_max = 50
     # constraints for ticket price in cents
     price_min = 100
     price_max = 10000
