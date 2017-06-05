@@ -1,151 +1,227 @@
-
-import json
+"""
+Author @ Marcel Riederer                Date @ 4th June 2017
+Viagogo Task:
+    Breadth First Search on 21x21 grid.
+    Random Event Placement and Ticket Pricing.
+    Finds nearest 5 events and shows cheapest ticket price.
+"""
 import random
-random.seed(20)
-
-event_1 = '{"type": 1, "tickets": [10, 15, 15]}'
-event_2 = '{"type": 2, "tickets": [20, 25, 20]}'
-event_3 = '{"type": 3, "tickets": [30, 35, 25]}'
-event_4 = '{"type": 1, "tickets": [40, 15, 20]}'
-event_5 = '{"type": 2, "tickets": [50, 25, 10]}'
-event_6 = '{"type": 3, "tickets": [60, 35, 40]}'
-
-EVENT_TRANSCRIPT = """\
-x-x-x-x-x-x-x-x-x-x
-x-{0}-x-x-x-x-x-x-x-x
-x-x-x-{1}-x-x-x-x-x-x
-x-x-x-x-x-x-x-x-x-x
-x-x-x-x-x-x-x-x-x-x
-x-x-x-x-x-{2}-x-x-x-x
-x-{3}-x-x-x-x-x-x-x-x
-x-x-x-x-{4}-x-x-x-x-x
-x-x-x-x-x-x-{5}-x-x-x
-x-x-x-x-x-x-x-x-x-x""".format(event_1, event_2, event_3, event_4, event_5, event_6)
+from ast import literal_eval as make_tuple
+#random.seed(20)  # uncomment to stop randomising
 
 
 class EventMap(object):
-    """ detail
     """
-
+    Holds grid for events and methods to access
+    """
+    # constraints for size of grid
     x_values = 21
     y_values = 21
     x_min = -10
     y_min = -10
-
-    event_min = 5
-    event_max = 10
-
+    # constraints for no of events
+    event_min = 25
+    event_max = 50
+    # constraints for no of tickets
     ticket_min = 0
     ticket_max = 10
-
-    price_min = 1000
+    # constraints for ticket price in cents
+    price_min = 100
     price_max = 10000
 
-
-    grid = []
-
-    def __init__(self, transcript):
-        """ detail
+    def __init__(self):
         """
+        Randomly creates events for grid
+        """
+        self.grid = []
+        # initialize empty grid
         grid_line = [None] * ((self.x_values))
-        #create grid
-        for i in range(self.y_min, self.y_min+self.y_values):
+        for i in range(self.y_min, self.y_min + self.y_values):
             self.grid.append(list(grid_line))
+        # add events to grid
+        n_events = random.randint(self.event_min, self.event_max)
+        for i in range(0, n_events):
+            x = random.randint(0, self.x_values - 1)
+            y = random.randint(0, self.y_values - 1)
+            while self.grid[y][x] != None:  # if event exists get new coordinate
+                x = random.randint(0, self.x_values - 1)
+                y = random.randint(0, self.y_values - 1)
+            self.grid[y][x] = self.__random_event(i + 1)
 
-        #no of events
-        events_exist = random.randint(self.event_min, self.event_max)
-        for i in range(0, events_exist+1):
-            x = random.randint(0, self.x_values)
-            y = random.randint(0, self.y_values)
-            print 'x <-' + str(x)
-            print 'y <-' + str(y)
-
-            while self.grid[y][x] != None:
-                x = random.randint(0, self.x_values)
-                y = random.randint(0, self.y_values)
-
-            self.grid[y][x] = self.random_event()
-
-    def print_grid(self):
+    def __random_event(self, idx):
         """
-        Prints the grid in a nice format
-        """
-        print str(self.x_min) + " " + str(self.x_values - self.x_min)
-
-        axis = range(self.x_min, self.x_min + self.x_values)
-        axis = [str(x) for x in axis]
-        print '\t' + '\t'.join(axis)
-
-        for i, line in enumerate(self.grid):
-            nice_line = [axis[i]]
-            for event in line:
-                if event is None:
-                    nice_line.append('x')
-                else:
-                    nice_event = "("+ str(event['type'])+","+str(len(event['tickets']))+")"
-                    nice_line.append(nice_event)
-            print '\t'.join(nice_line)
-
-    def random_event(self):
-        """
-        Returns dictionary of an event of random type and with a random list of tickets
+        Returns dictionary of an event with a random list of tickets
         """
         event = {}
-        event['type'] = random.randint(1, 3)
         tickets = []
-        ticket_exist = random.randint(self.ticket_min, self.ticket_max)
-        for i in range(0, ticket_exist):
+        n_tickets = random.randint(self.ticket_min, self.ticket_max)
+        for i in range(0, n_tickets):
             price = random.randint(self.price_min, self.price_max)
             tickets.append(price)
+        event['id'] = idx
         event['tickets'] = tickets
         return event
 
-    def get_event_obj(self, x, y):
+    def print_grid(self):
         """
-        Returns event object at coordinates
+        Prints the grid in nice format
         """
-        return self.grid[y][x]
+        axis = range(self.x_min, self.x_min + self.x_values)
+        axis = [str(x) for x in axis]
+        print '\t' + '\t'.join(axis)
+        # reversed for graph like representation
+        axis = list(reversed(axis))
+        reversed_grid = list(reversed(self.grid))
+        for i, row in enumerate(reversed_grid):
+            nice_line = [axis[i]]
+            for event in row:
+                if event is None:
+                    nice_line.append('x')
+                else:
+                    nice_event = "(" + str(event['id']) + \
+                        "," + str(len(event['tickets'])) + ")"
+                    nice_line.append(nice_event)
+            print '\t'.join(nice_line)
 
-    def get_event_type(self, x, y):
+    def __get_index(self, x, y):
         """
-        Returns event type at coordinates
+        Convertes coordinates to indexes for array
         """
-        return self.grid[y][x]['type']
+        return (x - self.x_min), (y - self.y_min)
 
-    def get_event_tickets(self, x, y):
-        """
-        Returns event tickets at coordinates
-        """
-        return self.grid[y][x]['tickets']
+    def valid_coordinate(self, xy):
+        x = xy[0]
+        y = xy[1]
+        if x < self.x_min or x >= (self.x_min + self.x_values):
+            return False
+        if y < self.y_min or y >= (self.y_min + self.y_values):
+            return False
+        return True
 
-    def get_event_tickets_sorted(self, x, y):
-        #to sort
-        """
-        Returns event tickets sorted at coordinates
-        """
-        return self.grid[y][x]['tickets']
-
-    def is_event(self, x, y):
-        """
-        Returns event tickets at coordinates
-        """
+    def is_event(self, xy):
+        x, y = self.__get_index(xy[0], xy[1])
         if self.grid[y][x] == None:
             return False
         else:
             return True
 
+    def get_event(self, xy):
+        x, y = self.__get_index(xy[0], xy[1])
+        return self.grid[y][x]
 
-def find_nearest_three():
+    def get_tickets(self, xy):
+        x, y = self.__get_index(xy[0], xy[1])
+        return self.grid[y][x]['tickets']
 
-    return [1,2,3]
+    def get_id(self, xy):
+        x, y = self.__get_index(xy[0], xy[1])
+        return self.grid[y][x]['id']
+
+
+def distance_between(a, b):
+    """
+    Manhatten distance between a(x,y) and b(x,y)
+    """
+    x_distance = abs(a[0] - b[0])
+    y_distance = abs(a[1] - b[1])
+    return x_distance + y_distance
+
+
+def expand(coordinate):
+    """
+    Return North, South, East and West of Coordinate
+    """
+    x = coordinate[0]
+    y = coordinate[1]
+    neighbors = []
+    neighbors.append((x + 1, y))
+    neighbors.append((x - 1, y))
+    neighbors.append((x, y + 1))
+    neighbors.append((x, y - 1))
+    return neighbors
+
+
+def find_nearest(eventmap, start_node, n_events):
+    """
+    Finds nearest events using breadth first search.
+    Does not visit seen coordinates
+    Returns a list of tupples of event and coordinate found
+    """
+    nearest_events = []
+    nodes = [start_node]
+    visited_nodes = set()
+    # until all nodes visited or until n_events found
+    while len(nodes) > 0 and len(nearest_events) < n_events:
+        front_node = nodes.pop()
+        # if coordinate is valid and node not visited
+        if eventmap.valid_coordinate(front_node) and not front_node in visited_nodes:
+            visited_nodes.add(front_node)
+            # if node is an event
+            if eventmap.is_event(front_node):
+                event = eventmap.get_event(front_node)
+                nearest_events.append((event, front_node))
+            # expand node
+            nodes = expand(front_node) + nodes
+    return nearest_events
+
+
+def print_nice_event(nearest_events, user_coordinate):
+    """
+    Prints nice the nearest events with distance
+    """
+    for event in nearest_events:
+        idx = event[0]['id']
+        tickets = event[0]['tickets']
+        event_coordinate = event[1]
+        if len(tickets) == 0:
+            price = 'No Tickets'
+        else:
+            price = sorted(tickets)[0]
+            price = '$' + str(price)[:-2] + '.' + str(price)[-2:]
+        distance = distance_between(event_coordinate, user_coordinate)
+        print 'Event {0} - {1}, Distance {2}'.format(idx, price, distance)
+
+
+def main():
+    """
+    Runs a loop for user to give commands
+    """
+    eventmap = EventMap()
+    commands = """\
+Command\tDescription
+map\tview randomly generated map
+event x,y\tview event and tickets at coordinate
+find x,y\tfind nearest events from coordinate
+help\tshow commands
+exit\tterminate program"""
+
+    print commands
+    user_input = raw_input('> ')
+    while user_input != 'exit':
+        raw = user_input.split(' ')
+        # print grid
+        if raw[0] == 'map':
+            eventmap.print_grid()
+        # help commands
+        elif raw[0] == 'help':
+            print commands
+        # show event at coordinate
+        elif raw[0] == 'event':
+            user_tupple = make_tuple(raw[1])
+            if eventmap.is_event(user_tupple):
+                idx = eventmap.get_id(user_tupple)
+                tixs = eventmap.get_tickets(user_tupple)
+                # add currency format to integers
+                print 'id: {0} tickets: {1}'.format(idx, ['$' + str(t)[:-2] + '.' + str(t)[-2:] for t in tixs])
+            else:
+                print 'no event at ' + str(user_tupple)
+        elif raw[0] == 'find':  # find nearest events
+            user_tupple = make_tuple(raw[1])
+            nearest_events = find_nearest(eventmap, user_tupple, 5)
+            print_nice_event(nearest_events, user_tupple)
+        user_input = raw_input('> ')
+    # end input loop
 
 
 if __name__ == '__main__':
-    """
-    """
-    eventmap = EventMap(EVENT_TRANSCRIPT)
-    eventmap.print_grid()
-
-    print find_nearest_three()
-
-
+    main()
