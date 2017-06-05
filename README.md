@@ -58,13 +58,16 @@ Example Program Run:
     find x,y    find nearest events from coordinate
     help        show commands
     exit        terminate program
+
     > find 1,2
     Event 39 - $34.78, Distance 3
     Event 30 - $14.88, Distance 4
     Event 7 - No Tickets, Distance 4
     Event 40 - $5.75, Distance 5
     Event 13 - $6.42, Distance 5
+
     > find 12,3
+    
     > find -5,4
     Event 17 - $1.75, Distance 0
     Event 26 - $6.29, Distance 1
