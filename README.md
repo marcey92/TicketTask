@@ -1,9 +1,10 @@
 Author @ Marcel Riederer                Date @ 4th June 2017
 
 Viagogo Intern/Graduate Developer Test
-Written in Python
+--------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------
 
+Written in Python
 To Run in Terminal:
 
     python viagogo.py
