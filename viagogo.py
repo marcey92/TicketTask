@@ -2,7 +2,7 @@
 
 """
 Author @ Marcel Riederer                Date @ 4th June 2017
-Viagogo Task:
+Description:
     Breadth First Search on 21x21 grid.
     Random Event Placement and Ticket Pricing.
     Finds nearest 5 events and shows cheapest ticket price.
